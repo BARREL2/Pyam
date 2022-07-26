@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+<script type="text/javascript">
+    let clipboadCopyUrl = function(){
+    let urltext = document.getElementById("urlList");
+    urltext.select();
+    document.execCommand("copy");
+    }
+    let clipboadCopyHtml = function(){
+        let outHtml = document.getElementById("outputHtml");
+        outHtml.select();
+        document.execCommand("copy");
+    }
+</script>
+
+<div class="container">
+    <form action="/search" method="POST" class="form-inline">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <label>キーワード</label>
+                <input class="form-control" type="text" name="keyword" placeholder="検索ワード">
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">
+                <label>個数</label>
+                <select class="form-select" name="valueSelect">
+                    {% for i in range(1,11) %}
+                        <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-3">
+                <label>サイズ</label>
+                <select class="form-select" name="sizeSelect">
+                    {% for key in sizeList %} 
+                        <option value="{{key}}" {%if key == 18%}selected{%endif%}>{{sizeList[key]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-2">
+                <br>
+                <button class="btn btn-primary" type="submit">検索</button>
+            </div>
+        </div>
+    </form>
+</div>
+<br>
+<div class="container d-flex justify-content-center">
+    <textarea id="urlList" rows="2" cols="30">{{ urls }}</textarea>
+    <input type="button" value="URLをコピー" onclick="clipboadCopyUrl()">
+</div><br>
+<hr>
+{% if flag==2 %}
+    <p class="text-danger">{{message}}</p>
+{% endif %}
+{% if flag==1 %}
+<div class="container p-2">
+    <h2>{{keywords}} の検索結果</h2>
+</div>
+{% for product in products %}
+<div class="container">
+    <section class="pl-4 border border-black rounded ">
+        <div class="d-flex">
+            <div class="w-30"><a href="{{ product.url }}" target="_blank">
+                <img src="{{product.images.medium}}"></a>
+            </div>
+            <div>
+                <div class="p-2">
+                    <div class="overflow-auto font-bold">
+                        {{ product.title }}
+                    </div>
+                </div>
+                <div class="container d-flex justify-content-center align-content-center">
+                    <div class="align-self-center p-2">価格:{{product.prices.price.value |int}}円</div>
+                    <div class="align-self-center p-2"><button class="btn btn-outline-primary"><a href="{{ product.url }}" target="_blank"><span class="text-dark">Amazonで詳細を見る</span></a></button></div>
+                </div>
+                <div class="container d-flex justify-content-center">
+                    <textarea id="outputHtml" rows="1" cols="10"><div class="card" style="width:{{sizeSelect}}"><img src="{{product.images.medium}}" class="card-img-top"><div class="card-body"><h5 class="card-title overflow-hidden">{{product.title}}</h5><p class="card-text">価格:{{product.prices.price.value |int}}円</p><div class="align-self-center p-2"><button class="btn btn-outline-primary"><a href="{{ product.url }}" target="_blank"><span class="text-dark">Amazonで詳細を見る</span></a></button></div></div></textarea>
+                    <input type="button" value="HTMLをコピー" onclick="clipboadCopyHtml()">
+                </div><br>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+<br>
+{% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,20 @@
+.textOverflow1 {
+	overflow: hidden;
+	padding: 10px;
+	width: 500px;
+	white-space: nowrap;
+}
+
+.textOverflow1 {
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis; /* Safari */
+	-o-text-overflow: ellipsis; /* Opera */
+}
+
+.outerBox {
+    border: solid;
+    border-color: orangered;
+    border-radius: 30px;
+    padding: 20px;
+    margin-left: 20px;
+}
