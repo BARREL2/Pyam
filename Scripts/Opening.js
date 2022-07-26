@@ -1,5 +1,5 @@
 #pragma strict
-
+//フェードイン・フェードアウト設定
 public var fadeOutTexture : Texture2D;
 public var fadeSpeed = 0.3; 
 var drawDepth = -1000;
@@ -9,29 +9,23 @@ private var fadeDir = -1;
 
 var timer : int = 0;
 
-function Start()
-{
+function Start(){
 	alpha = 0;
 	fadeOut();
 }
 
-function Update ()
-{
+function Update () {
 	timer++;
 	
-	if(timer < 100)
-	{
+	if(timer < 100){
 	 fadeDir = 1;
 	}
-	
-	if(timer > 120)
-	{
+	if(timer > 120){
 		Application.LoadLevel("Title");
 	}
 }
 
-function OnGUI()
-{
+function OnGUI(){
 	alpha += fadeDir * fadeSpeed * Time.deltaTime;	
 	alpha = Mathf.Clamp01(alpha);	
  
@@ -41,13 +35,11 @@ function OnGUI()
 	GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), fadeOutTexture);
 }
 
-function fadeIn()
-{
+function fadeIn(){
 	fadeDir = -1;	
 }
   
-function fadeOut()
-{
+function fadeOut(){
 	fadeDir = 1;	
 }
  
